@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Signup - MediConnect</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .mc-auth-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem 1.5rem;
+        }
+
+        .mc-auth-form-box {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(15, 46, 87, 0.15);
+        }
+
+        .mc-auth-form-box h2 {
+            margin-bottom: 1.5rem;
+            color: #16375b;
+            font-size: 1.5rem;
+        }
+
+        .mc-form-group {
+            margin-bottom: 1rem;
+        }
+
+        .mc-form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: #16375b;
+            font-size: 0.9rem;
+        }
+
+        .mc-form-group input {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #d0d7e3;
+            border-radius: 0.6rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+
+        .mc-form-group input:focus {
+            outline: none;
+            border-color: #0b79d0;
+            box-shadow: 0 0 0 3px rgba(11, 121, 208, 0.1);
+        }
+
+        .mc-auth-form-box button {
+            width: 100%;
+            padding: 0.8rem;
+            background: #ff4b5c;
+            color: #fff;
+            border: none;
+            border-radius: 0.6rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 0.5rem;
+        }
+
+        .mc-auth-form-box button:hover {
+            background: #e63946;
+        }
+
+        .mc-form-msg {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 0.6rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .mc-form-msg.success {
+            background: #e3fceb;
+            color: #1b6b39;
+            display: block;
+        }
+
+        .mc-form-msg.error {
+            background: #ffe3e3;
+            color: #c41e3a;
+            display: block;
+        }
+
+        .mc-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e6effa;
+        }
+
+        .mc-tab-btn {
+            background: transparent;
+            border: none;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .mc-tab-btn.active {
+            color: #ff4b5c;
+            border-bottom-color: #ff4b5c;
+        }
+
+        .mc-tab-content {
+            display: none;
+        }
+
+        .mc-tab-content.active {
+            display: block;
+        }
+
+        .mc-auth-divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #999;
+        }
+
+        .mc-auth-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .mc-auth-link a {
+            color: #0b79d0;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .mc-auth-info-box {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(15, 46, 87, 0.15);
+        }
+
+        .mc-auth-info-box h3 {
+            color: #16375b;
+            margin-bottom: 1rem;
+        }
+
+        .mc-auth-info-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .mc-auth-info-box li {
+            padding: 0.6rem 0;
+            color: #4e6b8f;
+            border-bottom: 1px solid #e6effa;
+        }
+
+        .mc-auth-info-box li:before {
+            content: "✅ ";
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .mc-auth-container {
+                grid-template-columns: 1fr;
+            }
+            .mc-tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body class="mc-body">
+
+    <!-- NAVBAR -->
+    <header class="mc-navbar">
+       <div class="mc-nav-left">
+    <div class="mc-logo-mark">
+        <img src="logo.png" alt="Logo">
+    </div>
+    
+    <div>
+        <div class="mc-logo-title">MediConnect</div>
+        <div class="mc-logo-subtitle">Family Health Hub</div>
+    </div>
+</div>
+        <div class="mc-nav-right">
+            <a href="index.html" class="mc-btn-ghost">← Back Home</a>
+        </div>
+    </header>
+
+    <!-- AUTH CONTAINER -->
+    <main class="mc-auth-container">
+        <!-- FORM BOX -->
+        <div class="mc-auth-form-box">
+            <!-- TABS -->
+            <div class="mc-tabs">
+                <button class="mc-tab-btn active" onclick="switchTab('login')">🔓 Login</button>
+                <button class="mc-tab-btn" onclick="switchTab('signup')">✍️ Sign Up</button>
+            </div>
+
+            <!-- LOGIN TAB -->
+            <div id="login" class="mc-tab-content active">
+                <h2>👋 Welcome Back</h2>
+                <p style="color: #4e6b8f; margin-bottom: 1.5rem;">Sign in to access your health records</p>
+
+                <form id="loginForm" onsubmit="event.preventDefault(); loginUser();">
+                    <div class="mc-form-group">
+                        <label for="loginEmail">📧 Email Address</label>
+                        <input type="email" id="loginEmail" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="mc-form-group">
+                        <label for="loginPassword">🔐 Password</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="button" onclick="loginUser()">🔓 Sign In</button>
+                    <div id="loginMsg" class="mc-form-msg"></div>
+                </form>
+
+                <div class="mc-auth-link">
+                    <a href="index.html" class="mc-guest-btn" style="display: block; margin-top: 1rem; padding: 0.6rem; background: #e3fceb; color: #1b6b39; border-radius: 0.6rem; text-decoration: none; text-align: center;">🌐 Explore as Guest</a>
+                </div>
+            </div>
+
+            <!-- SIGNUP TAB -->
+            <div id="signup" class="mc-tab-content">
+                <h2>✨ Create Account</h2>
+                <p style="color: #4e6b8f; margin-bottom: 1.5rem;">Join MediConnect to track your family health</p>
+
+                <form id="signupForm">
+                    <div class="mc-form-group">
+                        <label for="signupName">👤 Full Name</label>
+                        <input type="text" id="signupName" placeholder="John Doe" required>
+                    </div>
+
+                    <div class="mc-form-group">
+                        <label for="signupEmail">📧 Email Address</label>
+                        <input type="email" id="signupEmail" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="mc-form-group">
+                        <label for="signupPassword">🔐 Password</label>
+                        <input type="password" id="signupPassword" placeholder="••••••••" required>
+                    </div>
+
+                    <div class="mc-form-group">
+                        <label for="signupConfirm">🔐 Confirm Password</label>
+                        <input type="password" id="signupConfirm" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="button" onclick="signupUser()">✅ Create Account</button>
+                    <div id="signupMsg" class="mc-form-msg"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- INFO BOX -->
+        <div class="mc-auth-info-box">
+            <h3>🔒 Why Create an Account?</h3>
+            <ul>
+                <li>Track health records for entire family</li>
+                <li>Save favorite hospitals</li>
+                <li>Record vaccinations & checkups</li>
+                <li>Mood & wellness tracking</li>
+                <li>Access from any device</li>
+                <li>Secure & encrypted data</li>
+            </ul>
+
+            <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #e6effa;">
+
+            <h3>🛡️ Your Privacy</h3>
+            <p style="color: #4e6b8f; font-size: 0.9rem;">
+                All your health data is encrypted and stored securely with Firebase. We never share your personal information.
+            </p>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mc-footer">
+        <p>&copy; 2026 MediConnect. Your health, our priority.</p>
+    </footer>
+<script>
+    // This makes the Login/Signup tabs switch
+    function switchTab(tabName) {
+        // 1. Hide all tab contents
+        document.querySelectorAll('.mc-tab-content').forEach(el => el.classList.remove('active'));
+        // 2. Deactivate all tab buttons
+        document.querySelectorAll('.mc-tab-btn').forEach(el => el.classList.remove('active'));
+        
+        // 3. Show the clicked tab content
+        document.getElementById(tabName).classList.add('active');
+        // 4. Highlight the clicked button
+        event.target.classList.add('active');
+    }
+</script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>s

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediConnect - Family Health Hub</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="mc-body">
+
+    <!-- NAVBAR -->
+    <header class="mc-navbar">
+     <div class="mc-nav-left">
+    <div class="mc-logo-mark">
+        <img src="logo.png" alt="Logo">
+    </div>
+    
+    <div>
+        <div class="mc-logo-title">MediConnect</div>
+        <div class="mc-logo-subtitle">Family Health Hub</div>
+    </div>
+</div>
+        <div class="mc-nav-right">
+           <span class="mc-user-label" id="userDisplay">Guest</span>
+<button class="mc-btn-ghost" id="authBtn">Login</button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- HERO SECTION -->
+        <section class="mc-hero">
+            <div class="mc-hero-text">
+                <div class="mc-hero-tag">🏥 Made for Indian families</div>
+                <h1>Your Family Health, Organized</h1>
+                <p>Quick access to first aid, medicine reminders, hospital finder, and mental wellness—all in one place. Built by students for families.</p>
+
+                <div class="mc-hero-actions">
+                    <a href="firstaid.html" class="mc-btn-primary">🚑 Emergency Help</a>
+                    <a href="reminder.html" class="mc-btn-outline">💊 Medicine Reminders</a>
+                </div>
+            </div>
+
+            <div class="mc-hero-visual">
+                <div class="mc-hero-card-row">
+                    <div class="mc-hero-card">Track medicine doses for each family member</div>
+                    <div class="mc-hero-card">Find nearby hospitals and save favourites</div>
+                </div>
+                <div class="mc-hero-card-row">
+                    <div class="mc-hero-card">Emergency numbers always visible</div>
+                    <div class="mc-hero-card">Mood journal & mental wellness support</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAIN CONTENT AREA -->
+        <section class="mc-main">
+
+            <!-- CORE MODULES - GRID 4 -->
+            <h2 class="mc-section-title">⚡ Core Modules</h2>
+            <div class="mc-grid-4">
+                <a href="firstaid.html" class="mc-feature-tile">
+                    <div class="mc-feature-icon">🚑</div>
+                    <h3>First Aid Guide</h3>
+                    <p>CPR, choking, burns, heart attack with clear steps.</p>
+                </a>
+
+                <a href="reminder.html" class="mc-feature-tile">
+                    <div class="mc-feature-icon">💊</div>
+                    <h3>Medicine Reminders</h3>
+                    <p>Never miss a dose. Time-based alerts for family.</p>
+                </a>
+
+                <a href="hospitals.html" class="mc-feature-tile">
+                    <div class="mc-feature-icon">🏥</div>
+                    <h3>Hospital Locator</h3>
+                    <p>Find nearby hospitals with Google Maps.</p>
+                </a>
+
+                <a href="records.html" class="mc-feature-tile">
+                    <div class="mc-feature-icon">📋</div>
+                    <h3>Health Records</h3>
+                    <p>Track vaccinations, doctor visits, and wellness.</p>
+                </a>
+            </div>
+
+            <!-- HEALTH RESOURCES & HELPLINES - GRID 3 -->
+            <h2 class="mc-section-title">🌐 Health Resources & Helplines</h2>
+            <div class="mc-grid-3">
+                <div class="mc-info-card">
+                    <h3>🌐 National Health Portal</h3>
+                    <p>Official health information, disease prevention, and wellness programs.</p>
+                </div>
+
+                <div class="mc-info-card">
+                    <h3>🧠 Tele-MANAS</h3>
+                    <p>Free mental health counseling. Call <strong>14416</strong></p>
+                </div>
+
+                <div class="mc-info-card">
+                    <h3>🏛️ Ministry of Health</h3>
+                    <p>Government health schemes, guidelines, and updates.</p>
+                </div>
+            </div>
+
+            <!-- EMERGENCY NUMBERS - GRID 3 -->
+            <h2 class="mc-section-title">🚨 Emergency Numbers (India)</h2>
+            <div class="mc-grid-3">
+                <div class="mc-info-card">
+                    <h3>🚑 Ambulance</h3>
+                    <p><strong>102</strong> (All India)</p>
+                </div>
+
+                <div class="mc-info-card">
+                    <h3>☠️ Poison Control</h3>
+                    <p><strong>1800-180-1888</strong></p>
+                </div>
+
+                <div class="mc-info-card">
+                    <h3>🧠 Mental Health Crisis</h3>
+                    <p><strong>9152987821</strong> (iCall)</p>
+                </div>
+            </div>
+<div style="text-align: center; margin: 3rem 0 1rem 0;">
+                <a href="about.html" style="text-decoration: none; color: #555; border: 1px solid #ccc; padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; display: inline-block; transition: 0.2s;">
+                    ℹ️ About Project
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mc-footer">
+        <p>&copy; 2026 MediConnect. Built by students for families. All rights reserved.</p>
+    </footer>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Records - MediConnect</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* === YOUR ORIGINAL STYLES (UNCHANGED) === */
+        .mc-page-header {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: #fff;
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .mc-page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mc-page-header p {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        .mc-content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .mc-section {
+            background: #ffffff;
+            border-radius: 0.9rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(15, 46, 87, 0.15);
+        }
+
+        .mc-section h2 {
+            color: #8b5cf6;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #ede9fe;
+            padding-bottom: 0.8rem;
+        }
+
+        .mc-section h3 {
+            color: #16375b;
+            margin: 1.2rem 0 0.8rem 0;
+            font-size: 1.1rem;
+        }
+
+        .mc-section p {
+            color: #4e6b8f;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .mc-form-container {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mc-form-group {
+            margin-bottom: 1rem;
+        }
+
+        .mc-form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: #16375b;
+            font-size: 0.9rem;
+        }
+
+        .mc-form-group input,
+        .mc-form-group select,
+        .mc-form-group textarea {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #d0d7e3;
+            border-radius: 0.6rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+
+        .mc-form-group input:focus,
+        .mc-form-group select:focus,
+        .mc-form-group textarea:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .mc-form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .mc-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .mc-btn-submit {
+            background: #8b5cf6;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.6rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mc-btn-submit:hover {
+            background: #7c3aed;
+            box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+        }
+
+        .mc-records-list {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .mc-record-item {
+            background: #f8fafc;
+            border-left: 4px solid #8b5cf6;
+            padding: 1rem;
+            border-radius: 0.6rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mc-record-info h4 {
+            color: #16375b;
+            margin: 0 0 0.3rem 0;
+        }
+
+        .mc-record-info p {
+            color: #4e6b8f;
+            font-size: 0.9rem;
+            margin: 0.2rem 0;
+        }
+
+        .mc-record-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .mc-btn-small {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .mc-btn-view {
+            background: #ddd6fe;
+            color: #6d28d9;
+        }
+
+        .mc-btn-view:hover {
+            background: #6d28d9;
+            color: #fff;
+        }
+
+        .mc-btn-delete {
+            background: #ffe3e3;
+            color: #c41e3a;
+        }
+
+        .mc-btn-delete:hover {
+            background: #c41e3a;
+            color: #fff;
+        }
+
+        .mc-empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #4e6b8f;
+        }
+
+        .mc-wellness-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .mc-wellness-card {
+            background: #f8fafc;
+            border-left: 4px solid #8b5cf6;
+            padding: 1rem;
+            border-radius: 0.6rem;
+        }
+
+        .mc-wellness-card h4 {
+            color: #16375b;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .mc-wellness-card p {
+            color: #4e6b8f;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .mc-mental-support {
+            background: #f3e8ff;
+            border-left: 4px solid #8b5cf6;
+            padding: 1.5rem;
+            border-radius: 0.8rem;
+            margin: 1.5rem 0;
+        }
+
+        .mc-mental-support h3 {
+            color: #6d28d9;
+            margin-bottom: 1rem;
+        }
+
+        .mc-mental-support ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mc-mental-support li {
+            color: #4e6b8f;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ede9fe;
+        }
+
+        .mc-mental-support li:last-child {
+            border-bottom: none;
+        }
+
+        .mc-mental-support li:before {
+            content: "🧠 ";
+            margin-right: 0.5rem;
+        }
+
+        .mc-auth-alert {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 1rem;
+            border-radius: 0.6rem;
+            color: #856404;
+            margin: 1.5rem 0;
+        }
+
+        .mc-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e6effa;
+        }
+
+        .mc-tab-btn {
+            background: transparent;
+            border: none;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .mc-tab-btn.active {
+            color: #8b5cf6;
+            border-bottom-color: #8b5cf6;
+        }
+
+        .mc-tab-content {
+            display: none;
+        }
+
+        .mc-tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .mc-form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .mc-record-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .mc-record-actions {
+                width: 100%;
+                margin-top: 0.8rem;
+            }
+
+            .mc-tabs {
+                flex-wrap: wrap;
+            }
+
+            .mc-tab-btn {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body class="mc-body">
+
+    <header class="mc-navbar">
+      <div class="mc-nav-left">
+    <div class="mc-logo-mark">
+        <img src="logo.png" alt="Logo">
+    </div>
+    
+    <div>
+        <div class="mc-logo-title">MediConnect</div>
+        <div class="mc-logo-subtitle">Family Health Hub</div>
+    </div>
+</div>
+        <div class="mc-nav-right">
+            <span class="mc-user-label" id="userDisplay">Guest</span>
+            <a href="index.html" class="mc-btn-ghost">Home</a>
+        </div>
+    </header>
+
+    <section class="mc-page-header">
+        <h1>📋 Health Records & Wellness Tracker</h1>
+        <p>Keep a digital record of vaccinations, doctor visits, and wellness for better health management.</p>
+    </section>
+
+    <div class="mc-content-wrapper">
+
+        <div id="authCheck"></div>
+
+        <div class="mc-tabs" id="recordTabs">
+         <button class="mc-tab-btn active" onclick="switchTab('vaccination', this)">💉 Vaccination</button>
+<button class="mc-tab-btn" onclick="switchTab('checkup', this)">🩺 Checkups</button>
+<button class="mc-tab-btn" onclick="switchTab('mood', this)">😊 Mood Journal</button>
+        </div>
+
+        <div id="vaccination" class="mc-tab-content active">
+            <section class="mc-section">
+                <h2>💉 Vaccination Records</h2>
+                <p>Keep track of all vaccinations for family members. Important for health monitoring and school/job requirements.</p>
+
+                <div class="mc-form-container" id="vaccinationForm">
+                    <form id="addVaccinationForm">
+                        <div class="mc-form-row">
+                            <div class="mc-form-group">
+                                <label for="vaccineName">Vaccine Name</label>
+                                <input type="text" id="vaccineName" placeholder="e.g., COVID-19, Polio, MMR" required>
+                            </div>
+                            <div class="mc-form-group">
+                                <label for="vaccineDate">Date of Vaccination</label>
+                                <input type="date" id="vaccineDate" required>
+                            </div>
+                        </div>
+
+                        <div class="mc-form-row">
+                            <div class="mc-form-group">
+                                <label for="familyMember">Family Member</label>
+                                <input type="text" id="familyMember" placeholder="e.g., Self, Son, Daughter" required>
+                            </div>
+                            <div class="mc-form-group">
+                                <label for="nextDue">Next Due Date</label>
+                                <input type="date" id="nextDue">
+                            </div>
+                        </div>
+
+                        <div class="mc-form-group">
+                            <label for="vaccineNotes">Notes</label>
+                            <textarea id="vaccineNotes" placeholder="e.g., Side effects, dosage details"></textarea>
+                        </div>
+
+                        <button type="submit" class="mc-btn-submit">➕ Add Vaccination Record</button>
+                        <div id="vaccineMsg" style="margin-top: 1rem; padding: 0.8rem; border-radius: 0.6rem; display: none;"></div>
+                    </form>
+                </div>
+
+                <h3>Your Vaccination Records</h3>
+                <div id="vaccinationList"></div>
+            </section>
+        </div>
+
+        <div id="checkup" class="mc-tab-content">
+            <section class="mc-section">
+                <h2>🩺 Health Checkups & Doctor Visits</h2>
+                <p>Record doctor visits, health screenings, test results, and medical consultations for future reference.</p>
+
+                <div class="mc-form-container" id="checkupForm">
+                    <form id="addCheckupForm">
+                        <div class="mc-form-row">
+                            <div class="mc-form-group">
+                                <label for="doctorName">Doctor Name / Hospital</label>
+                                <input type="text" id="doctorName" placeholder="e.g., Dr. Sharma, Apollo Hospital" required>
+                            </div>
+                            <div class="mc-form-group">
+                                <label for="checkupDate">Date of Visit</label>
+                                <input type="date" id="checkupDate" required>
+                            </div>
+                        </div>
+
+                        <div class="mc-form-row">
+                            <div class="mc-form-group">
+                                <label for="checkupMember">Family Member</label>
+                                <input type="text" id="checkupMember" placeholder="e.g., Self, Mom, Dad" required>
+                            </div>
+                            <div class="mc-form-group">
+                                <label for="checkupType">Type of Checkup</label>
+                                <select id="checkupType" required>
+                                    <option value="">Select type</option>
+                                    <option value="General Checkup">General Checkup</option>
+                                    <option value="Dental">Dental</option>
+                                    <option value="Eye Exam">Eye Exam</option>
+                                    <option value="Blood Test">Blood Test</option>
+                                    <option value="X-Ray">X-Ray</option>
+                                    <option value="Heart Checkup">Heart Checkup</option>
+                                    <option value="Vaccination">Vaccination</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mc-form-group">
+                            <label for="checkupNotes">Diagnosis & Results</label>
+                            <textarea id="checkupNotes" placeholder="e.g., Test results, doctor's recommendations, prescribed medicines"></textarea>
+                        </div>
+
+                        <button type="submit" class="mc-btn-submit">➕ Add Health Checkup</button>
+                        <div id="checkupMsg" style="margin-top: 1rem; padding: 0.8rem; border-radius: 0.6rem; display: none;"></div>
+                    </form>
+                </div>
+
+                <h3>Your Health Checkups</h3>
+                <div id="checkupList"></div>
+            </section>
+        </div>
+
+        <div id="mood" class="mc-tab-content">
+            <section class="mc-section">
+                <h2>😊 Mood & Mental Wellness Journal</h2>
+                <p>Track daily mood, stress levels, and mental health. Helps identify patterns and provides wellness insights.</p>
+
+                <div class="mc-form-container" id="moodForm">
+                    <form id="addMoodForm">
+                        <div class="mc-form-row">
+                            <div class="mc-form-group">
+                                <label for="moodDate">Date</label>
+                                <input type="date" id="moodDate" required>
+                            </div>
+                            <div class="mc-form-group">
+                                <label for="moodLevel">How are you feeling?</label>
+                                <select id="moodLevel" required>
+                                    <option value="">Select mood</option>
+                                    <option value="😢 Very Sad">😢 Very Sad</option>
+                                    <option value="😕 Sad">😕 Sad</option>
+                                    <option value="😐 Neutral">😐 Neutral</option>
+                                    <option value="🙂 Good">🙂 Good</option>
+                                    <option value="😄 Very Happy">😄 Very Happy</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mc-form-row">
+                            <div class="mc-form-group">
+                                <label for="stressLevel">Stress Level (1-10)</label>
+                                <input type="number" id="stressLevel" min="1" max="10" placeholder="1 (Low) to 10 (High)" required>
+                            </div>
+                            <div class="mc-form-group">
+                                <label for="sleepHours">Sleep Hours</label>
+                                <input type="number" id="sleepHours" min="0" max="24" step="0.5" placeholder="e.g., 7.5" required>
+                            </div>
+                        </div>
+
+                        <div class="mc-form-group">
+                            <label for="moodNotes">How are you feeling today?</label>
+                            <textarea id="moodNotes" placeholder="Describe your mood, what's bothering you, or positive things today..."></textarea>
+                        </div>
+
+                        <button type="submit" class="mc-btn-submit">📝 Add Mood Entry</button>
+                        <div id="moodMsg" style="margin-top: 1rem; padding: 0.8rem; border-radius: 0.6rem; display: none;"></div>
+                    </form>
+                </div>
+
+                <h3>Your Mood History</h3>
+                <div id="moodList"></div>
+            </section>
+        </div>
+
+        <section class="mc-section">
+            <h2>🧠 Mental Wellness Support</h2>
+            <div class="mc-mental-support">
+                <h3>Helplines & Support Services</h3>
+                <ul>
+                    <li><strong>AASRA Suicide Prevention: 9820466726</strong></li>
+                    <li><strong>iCall Mental Health: 9152987821</strong></li>
+                    <li><strong>Tele-MANAS: 14416</strong> - Free mental health counseling</li>
+                    <li><strong>Vandrevala Foundation: 9999 666 555</strong></li>
+                    <li><strong>AADI India: 7777 955 955</strong> - Anxiety & depression support</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="mc-section">
+            <h2>💪 Wellness Tips for Healthy Living</h2>
+
+            <div class="mc-wellness-grid">
+                <div class="mc-wellness-card">
+                    <h4>🏃 Exercise Regularly</h4>
+                    <p>30 minutes of activity daily (walking, yoga, sports) improves physical and mental health.</p>
+                </div>
+
+                <div class="mc-wellness-card">
+                    <h4>🥗 Eat Nutritious Food</h4>
+                    <p>Include fruits, vegetables, protein, whole grains. Avoid excessive salt, sugar, oil.</p>
+                </div>
+
+                <div class="mc-wellness-card">
+                    <h4>😴 Sleep Well</h4>
+                    <p>7-8 hours of quality sleep is essential for health, immunity, and mental wellness.</p>
+                </div>
+
+                <div class="mc-wellness-card">
+                    <h4>💧 Stay Hydrated</h4>
+                    <p>Drink 8-10 glasses of water daily. Proper hydration improves energy and digestion.</p>
+                </div>
+
+                <div class="mc-wellness-card">
+                    <h4>🧘 Manage Stress</h4>
+                    <p>Practice meditation, breathing exercises, or hobbies to reduce stress and anxiety.</p>
+                </div>
+
+                <div class="mc-wellness-card">
+                    <h4>👨⚕️ Regular Checkups</h4>
+                    <p>Visit doctor annually for preventive checkups to catch health issues early.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="mc-footer">
+        <p>&copy; 2026 MediConnect. Your health, our priority.</p>
+    </footer>
+
+    <script>
+function switchTab(tabId, btnElement) {
+    // 1. Hide all contents
+    document.querySelectorAll('.mc-tab-content').forEach(el => el.classList.remove('active'));
+    // 2. Deactivate all buttons
+    document.querySelectorAll('.mc-tab-btn').forEach(el => el.classList.remove('active'));
+    
+    // 3. Show content & Activate button
+    document.getElementById(tabId).classList.add('active');
+    btnElement.classList.add('active');
+}
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Locator - MediConnect</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .mc-page-header {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .mc-page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mc-page-header p {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        .mc-content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .mc-section {
+            background: #ffffff;
+            border-radius: 0.9rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(15, 46, 87, 0.15);
+        }
+
+        .mc-section h2 {
+            color: #10b981;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #d1fae5;
+            padding-bottom: 0.8rem;
+        }
+
+        .mc-section h3 {
+            color: #16375b;
+            margin: 1.2rem 0 0.8rem 0;
+            font-size: 1.1rem;
+        }
+
+        .mc-section p {
+            color: #4e6b8f;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .mc-form-container {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mc-form-group {
+            margin-bottom: 1rem;
+        }
+
+        .mc-form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: #16375b;
+            font-size: 0.9rem;
+        }
+
+        .mc-form-group input,
+        .mc-form-group select {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #d0d7e3;
+            border-radius: 0.6rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+
+        .mc-form-group input:focus,
+        .mc-form-group select:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .mc-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .mc-btn-submit {
+            background: #10b981;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.6rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mc-btn-submit:hover {
+            background: #059669;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .mc-hospital-list {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .mc-hospital-card {
+            background: #f0fdf4;
+            border-left: 4px solid #10b981;
+            padding: 1rem;
+            border-radius: 0.6rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mc-hospital-info h4 {
+            color: #16375b;
+            margin: 0 0 0.3rem 0;
+        }
+
+        .mc-hospital-info p {
+            color: #4e6b8f;
+            font-size: 0.9rem;
+            margin: 0.2rem 0;
+        }
+
+        .mc-hospital-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .mc-btn-small {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .mc-btn-map {
+            background: #dbeafe;
+            color: #0284c7;
+        }
+
+        .mc-btn-map:hover {
+            background: #0284c7;
+            color: #fff;
+        }
+
+        .mc-btn-fav {
+            background: #fce7f3;
+            color: #ec4899;
+        }
+
+        .mc-btn-fav:hover {
+            background: #ec4899;
+            color: #fff;
+        }
+
+        .mc-btn-delete {
+            background: #ffe3e3;
+            color: #c41e3a;
+        }
+
+        .mc-btn-delete:hover {
+            background: #c41e3a;
+            color: #fff;
+        }
+
+        .mc-empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #4e6b8f;
+        }
+
+        .mc-checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .mc-checklist-card {
+            background: #f8fafc;
+            border-left: 4px solid #10b981;
+            padding: 1rem;
+            border-radius: 0.6rem;
+        }
+
+        .mc-checklist-card h4 {
+            color: #16375b;
+            margin: 0 0 0.8rem 0;
+        }
+
+        .mc-checklist-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mc-checklist-card li {
+            color: #4e6b8f;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid #e6effa;
+            font-size: 0.9rem;
+        }
+
+        .mc-checklist-card li:last-child {
+            border-bottom: none;
+        }
+
+        .mc-checklist-card li:before {
+            content: "✅ ";
+            font-weight: 600;
+        }
+
+        .mc-services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .mc-service-card {
+            background: #f0fdf4;
+            border: 1px solid #d1fae5;
+            border-radius: 0.6rem;
+            padding: 1rem;
+        }
+
+        .mc-service-card h5 {
+            color: #16375b;
+            margin: 0 0 0.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        .mc-service-card p {
+            color: #4e6b8f;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .mc-auth-alert {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 1rem;
+            border-radius: 0.6rem;
+            color: #856404;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .mc-form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .mc-hospital-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .mc-hospital-actions {
+                width: 100%;
+                margin-top: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body class="mc-body">
+
+    <!-- NAVBAR -->
+    <header class="mc-navbar">
+ <div class="mc-nav-left">
+    <div class="mc-logo-mark">
+        <img src="logo.png" alt="Logo">
+    </div>
+    
+    <div>
+        <div class="mc-logo-title">MediConnect</div>
+        <div class="mc-logo-subtitle">Family Health Hub</div>
+    </div>
+</div>
+        <div class="mc-nav-right">
+            <span class="mc-user-label" id="userDisplay">Guest</span>
+            <a href="index.html" class="mc-btn-ghost">Home</a>
+        </div>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="mc-page-header">
+        <h1>🏥 Hospital Locator</h1>
+        <p>Find nearby hospitals, emergency services, and healthcare facilities quickly using Google Maps.</p>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="mc-content-wrapper">
+
+        <!-- QUICK FIND SECTION -->
+        <section class="mc-section">
+            <h2>🔍 Quick Find Hospitals</h2>
+            <div class="mc-form-container">
+                <div class="mc-form-group">
+                    <label for="cityInput">🌍 Enter Your Area</label>
+                    <input type="text" id="cityInput" placeholder="e.g., Mumbai, Bangalore, Delhi" value="">
+                </div>
+                <button class="mc-btn-submit" onclick="searchOnMaps()">🗺️ Open Google Maps</button>
+            </div>
+
+            <p style="color: #999; font-size: 0.9rem; text-align: center;">Search will open Google Maps with "hospitals near me" for your location.</p>
+        </section>
+
+        <!-- FAVORITE HOSPITALS -->
+        <section class="mc-section">
+            <h2>❤️ Your Favorite Hospitals</h2>
+            <div id="authCheck"></div>
+            
+            <div class="mc-form-container" id="favHospitalForm">
+                <form id="addHospitalForm">
+                    <div class="mc-form-row">
+                        <div class="mc-form-group">
+                            <label for="hospitalName">🏥 Hospital Name</label>
+                            <input type="text" id="hospitalName" placeholder="e.g., Apollo Hospital" required>
+                        </div>
+                        <div class="mc-form-group">
+                            <label for="hospitalLocation">📍 Location</label>
+                            <input type="text" id="hospitalLocation" placeholder="e.g., Bandra, Mumbai" required>
+                        </div>
+                    </div>
+
+                    <div class="mc-form-row">
+                        <div class="mc-form-group">
+                            <label for="hospitalPhone">📞 Phone Number</label>
+                            <input type="tel" id="hospitalPhone" placeholder="e.g., 9876543210" required>
+                        </div>
+                        <div class="mc-form-group">
+                            <label for="hospitalSpecialty">🩺 Specialty</label>
+                            <input type="text" id="hospitalSpecialty" placeholder="e.g., General, Cardiology" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="mc-btn-submit">⭐ Add to Favorites</button>
+                    <div id="formMsg" style="margin-top: 1rem; padding: 0.8rem; border-radius: 0.6rem; display: none;"></div>
+                </form>
+            </div>
+
+            <h3 style="margin-top: 2rem;">Saved Hospitals</h3>
+            <div id="favoritesList"></div>
+        </section>
+
+        <!-- HOSPITAL VISIT CHECKLIST -->
+        <section class="mc-section">
+            <h2>📋 Hospital Visit Checklist</h2>
+
+            <div class="mc-checklist-grid">
+                <div class="mc-checklist-card">
+                    <h4>📄 Documents to Carry</h4>
+                    <ul>
+                        <li>Aadhar/ID</li>
+                        <li>Insurance card</li>
+                        <li>Medical reports</li>
+                        <li>Current medicines list</li>
+                    </ul>
+                </div>
+
+                <div class="mc-checklist-card">
+                    <h4>💰 Be Prepared For</h4>
+                    <ul>
+                        <li>Registration fee</li>
+                        <li>Consultation charges</li>
+                        <li>Tests/Scans</li>
+                        <li>Medicines</li>
+                    </ul>
+                </div>
+
+                <div class="mc-checklist-card">
+                    <h4>🩺 What to Tell Doctor</h4>
+                    <ul>
+                        <li>Current symptoms</li>
+                        <li>Medical history</li>
+                        <li>Allergies</li>
+                        <li>Recent medicines</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOSPITAL SERVICES -->
+        <section class="mc-section">
+            <h2>🏥 Common Hospital Services</h2>
+
+            <div class="mc-services-grid">
+                <div class="mc-service-card">
+                    <h5>🚑 Emergency (ER)</h5>
+                    <p>24/7 emergency care for accidents, sudden illnesses</p>
+                </div>
+
+                <div class="mc-service-card">
+                    <h5>🛏️ General Ward</h5>
+                    <p>Common illnesses, recovery, observation beds</p>
+                </div>
+
+                <div class="mc-service-card">
+                    <h5>🏥 ICU</h5>
+                    <p>Intensive care for critical patients (requires higher charges)</p>
+                </div>
+
+                <div class="mc-service-card">
+                    <h5>👨‍⚕️ OPD</h5>
+                    <p>Outpatient department for consultation without admission</p>
+                </div>
+
+                <div class="mc-service-card">
+                    <h5>🔬 Diagnostic</h5>
+                    <p>X-ray, CT scan, ultrasound, blood tests available</p>
+                </div>
+
+                <div class="mc-service-card">
+                    <h5>💊 Pharmacy</h5>
+                    <p>Medicines dispensed on prescription</p>
+                </div>
+
+                <div class="mc-service-card">
+                    <h5>⚕️ Surgical Theaters</h5>
+                    <p>Operating rooms for surgeries</p>
+                </div>
+
+                <div class="mc-service-card">
+                    <h5>👶 Maternity</h5>
+                    <p>Prenatal, delivery, and postnatal care</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="mc-footer">
+        <p>&copy; 2026 MediConnect. Your health, our priority.</p>
+    </footer>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>

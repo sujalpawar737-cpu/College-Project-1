@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Reminders - MediConnect</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .mc-page-header {
+            background: linear-gradient(135deg, #22d3ee, #06b6d4);
+            color: #fff;
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .mc-page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mc-page-header p {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        .mc-content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .mc-section {
+            background: #ffffff;
+            border-radius: 0.9rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(15, 46, 87, 0.15);
+        }
+
+        .mc-section h2 {
+            color: #22d3ee;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #cffafe;
+            padding-bottom: 0.8rem;
+        }
+
+        .mc-section h3 {
+            color: #16375b;
+            margin: 1.2rem 0 0.8rem 0;
+            font-size: 1.1rem;
+        }
+
+        .mc-section p {
+            color: #4e6b8f;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .mc-form-container {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mc-form-group {
+            margin-bottom: 1rem;
+        }
+
+        .mc-form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: #16375b;
+            font-size: 0.9rem;
+        }
+
+        .mc-form-group input,
+        .mc-form-group select {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #d0d7e3;
+            border-radius: 0.6rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+
+        .mc-form-group input:focus,
+        .mc-form-group select:focus {
+            outline: none;
+            border-color: #22d3ee;
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.1);
+        }
+
+        .mc-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .mc-btn-submit {
+            background: #22d3ee;
+            color: #0b1220;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.6rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mc-btn-submit:hover {
+            background: #06b6d4;
+            box-shadow: 0 4px 10px rgba(34, 211, 238, 0.3);
+        }
+
+        .mc-reminder-list {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .mc-reminder-item {
+            background: #f8fafc;
+            border-left: 4px solid #22d3ee;
+            padding: 1rem;
+            border-radius: 0.6rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mc-reminder-info h4 {
+            color: #16375b;
+            margin: 0 0 0.3rem 0;
+        }
+
+        .mc-reminder-info p {
+            color: #4e6b8f;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .mc-reminder-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .mc-btn-small {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .mc-btn-taken {
+            background: #e3fceb;
+            color: #1b6b39;
+        }
+
+        .mc-btn-taken:hover {
+            background: #1b6b39;
+            color: #fff;
+        }
+
+        .mc-btn-delete {
+            background: #ffe3e3;
+            color: #c41e3a;
+        }
+
+        .mc-btn-delete:hover {
+            background: #c41e3a;
+            color: #fff;
+        }
+
+        .mc-empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #4e6b8f;
+        }
+
+        .mc-empty-state p {
+            font-size: 0.95rem;
+        }
+
+        .mc-tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .mc-tip-card {
+            background: #f8fafc;
+            border-left: 4px solid #22d3ee;
+            padding: 1rem;
+            border-radius: 0.6rem;
+        }
+
+        .mc-tip-card h4 {
+            color: #16375b;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .mc-tip-card p {
+            color: #4e6b8f;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .mc-storage-tips {
+            background: #f0f9ff;
+            border-left: 4px solid #06b6d4;
+            padding: 1rem;
+            border-radius: 0.6rem;
+            margin: 1.5rem 0;
+        }
+
+        .mc-storage-tips h3 {
+            color: #16375b;
+            margin: 0 0 0.8rem 0;
+        }
+
+        .mc-storage-tips ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mc-storage-tips li {
+            color: #4e6b8f;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #cffafe;
+        }
+
+        .mc-storage-tips li:last-child {
+            border-bottom: none;
+        }
+
+        .mc-storage-tips li:before {
+            content: "✅ ";
+            font-weight: 600;
+        }
+
+        .mc-auth-alert {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 1rem;
+            border-radius: 0.6rem;
+            color: #856404;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .mc-form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .mc-reminder-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .mc-reminder-actions {
+                width: 100%;
+                margin-top: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body class="mc-body">
+
+    <!-- NAVBAR -->
+    <header class="mc-navbar">
+        <div class="mc-nav-left">
+    <div class="mc-logo-mark">
+        <img src="logo.png" alt="Logo">
+    </div>
+    
+    <div>
+        <div class="mc-logo-title">MediConnect</div>
+        <div class="mc-logo-subtitle">Family Health Hub</div>
+    </div>
+</div>
+        <div class="mc-nav-right">
+            <span class="mc-user-label" id="userDisplay">Guest</span>
+            <a href="index.html" class="mc-btn-ghost">Home</a>
+        </div>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="mc-page-header">
+        <h1>💊 Medicine Reminders</h1>
+        <p>Never miss a dose. Set reminders for family members and track taken/missed medicines.</p>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="mc-content-wrapper">
+
+        <!-- ADD REMINDER FORM -->
+        <section class="mc-section">
+            <h2>➕ Add New Reminder</h2>
+
+            <div id="authCheck"></div>
+
+            <div class="mc-form-container" id="reminderForm">
+                <form id="addReminderForm">
+                    <div class="mc-form-row">
+                        <div class="mc-form-group">
+                            <label for="medicineName">💊 Medicine Name</label>
+                            <input type="text" id="medicineName" placeholder="e.g., Aspirin, Vitamins" required>
+                        </div>
+                        <div class="mc-form-group">
+                            <label for="dosage">📏 Dosage</label>
+                            <input type="text" id="dosage" placeholder="e.g., 500mg, 1 tablet" required>
+                        </div>
+                    </div>
+
+                    <div class="mc-form-row">
+                        <div class="mc-form-group">
+                            <label for="time">🕐 Time</label>
+                            <input type="time" id="time" required>
+                        </div>
+                        <div class="mc-form-group">
+                            <label for="frequency">📅 Frequency</label>
+                            <select id="frequency" required>
+                                <option value="">Select frequency</option>
+                                <option value="Once a day">Once a day</option>
+                                <option value="Twice a day">Twice a day</option>
+                                <option value="Three times a day">Three times a day</option>
+                                <option value="Every alternate day">Every alternate day</option>
+                                <option value="Once a week">Once a week</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mc-form-group">
+                        <label for="familyMember">👤 Family Member</label>
+                        <input type="text" id="familyMember" placeholder="e.g., Mom, Dad, Self" required>
+                    </div>
+
+                    <div class="mc-form-group">
+                        <label for="notes">📝 Notes (Optional)</label>
+                        <input type="text" id="notes" placeholder="e.g., Take with food, After meals">
+                    </div>
+
+                    <button type="submit" class="mc-btn-submit">✅ Add Reminder</button>
+                    <div id="formMsg" style="margin-top: 1rem; padding: 0.8rem; border-radius: 0.6rem; display: none;"></div>
+                </form>
+            </div>
+        </section>
+
+        <!-- REMINDERS LIST -->
+        <section class="mc-section">
+            <h2>📋 Your Reminders</h2>
+            <div id="remindersList"></div>
+        </section>
+
+        <!-- MEDICINE TIPS -->
+        <section class="mc-section">
+            <h2>💡 Medicine Tips</h2>
+            
+            <div class="mc-tips-grid">
+                <div class="mc-tip-card">
+                    <h4>📅 Set Consistent Times</h4>
+                    <p>Take medicines at the same time each day to build a habit and improve effectiveness.</p>
+                </div>
+
+                <div class="mc-tip-card">
+                    <h4>🍽️ With or Without Food</h4>
+                    <p>Some medicines must be taken with food, others on empty stomach. Always follow doctor's advice.</p>
+                </div>
+
+                <div class="mc-tip-card">
+                    <h4>💧 Stay Hydrated</h4>
+                    <p>Take medicines with water unless instructed otherwise. Proper hydration helps absorption.</p>
+                </div>
+            </div>
+
+            <div class="mc-storage-tips">
+                <h3>🏠 Medicine Storage Tips</h3>
+                <ul>
+                    <li>Store medicines in a <strong>cool, dry place</strong> away from sunlight</li>
+                    <li>Keep in original containers with labels visible</li>
+                    <li>Check expiry dates regularly; dispose expired medicines safely</li>
+                    <li>Keep away from children and pets</li>
+                    <li>Don't split medicines unless doctor advises</li>
+                    <li>Maintain a <strong>medicine cabinet list</strong> for quick reference</li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="mc-footer">
+        <p>&copy; 2026 MediConnect. Your health, our priority.</p>
+    </footer>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+

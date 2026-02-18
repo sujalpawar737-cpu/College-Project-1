@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Aid Guide - MediConnect</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #edf7ff 0%, #e6fffa 100%);
+            min-height: 100vh;
+            color: #123049;
+        }
+
+        /* Header Section */
+        .fa-header {
+            background: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(15, 46, 87, 0.25);
+        }
+
+        .fa-header h1 {
+            font-size: 2.3rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+        }
+
+        .fa-header p {
+            font-size: 1.05rem;
+            opacity: 0.97;
+            margin-bottom: 0.3rem;
+        }
+
+        .fa-emergency-number {
+            background: rgba(255, 255, 255, 0.18);
+            padding: 0.9rem 1.2rem;
+            border-radius: 0.9rem;
+            margin-top: 0.8rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+        }
+
+        .fa-emergency-number strong {
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .fa-container {
+            max-width: 1100px;
+            margin: -2rem auto 2.5rem;
+            padding: 0 1.5rem 2rem;
+        }
+
+        /* Quick Access Buttons */
+        .fa-quick-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .fa-quick-btn {
+            background: #ffffff;
+            border: 1px solid #cce4f6;
+            padding: 0.9rem 0.7rem;
+            border-radius: 0.9rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #0f766e;
+            box-shadow: 0 3px 9px rgba(15, 118, 110, 0.12);
+            transition: all 0.25s ease;
+            font-size: 0.9rem;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .fa-quick-btn:hover {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ccfbf1 100%);
+            color: #115e59;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(15, 118, 110, 0.18);
+        }
+
+        /* Section Cards */
+        .fa-section {
+            background: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+            margin-bottom: 1.6rem;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .fa-section-title {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ecfeff 100%);
+            color: #0f172a;
+            padding: 1.1rem 1.3rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.25s ease;
+        }
+
+        .fa-section-title:hover {
+            background: linear-gradient(135deg, #bae6fd 0%, #a5f3fc 100%);
+        }
+
+        .fa-section-title h2 {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .fa-toggle-icon {
+            font-size: 1.3rem;
+            transition: transform 0.25s ease;
+            color: #0369a1;
+        }
+
+        .fa-toggle-icon.active {
+            transform: rotate(180deg);
+        }
+
+        .fa-section-content {
+            display: none;
+            padding: 1.5rem 1.6rem 1.7rem;
+            animation: slideDown 0.25s ease;
+            background: #f8fafc;
+        }
+
+        .fa-section-content.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 1000px;
+            }
+        }
+
+        .fa-steps {
+            list-style: none;
+            counter-reset: step-counter;
+            margin-bottom: 1.3rem;
+        }
+
+        .fa-steps li {
+            counter-increment: step-counter;
+            margin-bottom: 0.85rem;
+            padding-left: 2.7rem;
+            position: relative;
+            line-height: 1.6;
+            color: #1e293b;
+            font-size: 0.95rem;
+        }
+
+        .fa-steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 10px rgba(14, 165, 233, 0.35);
+        }
+
+        .fa-steps strong {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .fa-warning {
+            background: #ecfeff;
+            border-left: 4px solid #06b6d4;
+            padding: 0.9rem 1rem;
+            border-radius: 0.7rem;
+            margin-bottom: 1rem;
+            color: #0f172a;
+            font-size: 0.92rem;
+        }
+
+        .fa-warning strong {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #0369a1;
+        }
+
+        /* Video Section */
+        .fa-videos-section {
+            background: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+            padding: 1.8rem 1.6rem 2rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .fa-videos-section h2 {
+            color: #0f172a;
+            margin-bottom: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.25rem;
+        }
+
+        .fa-videos-section h2 span {
+            font-size: 1.4rem;
+        }
+
+        .fa-video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.3rem;
+        }
+
+        .fa-video-card {
+            background: linear-gradient(135deg, #f1f5f9 0%, #ecfeff 100%);
+            border-radius: 0.9rem;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            border: 1px solid #dbeafe;
+        }
+
+        .fa-video-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 18px rgba(15, 23, 42, 0.12);
+            border-color: #0ea5e9;
+        }
+
+        .fa-video-placeholder {
+            background: linear-gradient(135deg, #0ea5e9 0%, #22c55e 100%);
+            height: 170px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.4rem;
+        }
+
+        .fa-video-card h3 {
+            color: #0f172a;
+            padding: 0.9rem 1rem 0.3rem;
+            font-size: 1rem;
+        }
+
+        .fa-video-card p {
+            color: #475569;
+            padding: 0 1rem 0.8rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .fa-video-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.25s ease;
+            border-radius: 0 0 0.9rem 0.9rem;
+            font-size: 0.95rem;
+        }
+
+        .fa-video-btn:hover {
+            background: #0384c7;
+        }
+
+        /* Helplines */
+        .fa-helplines {
+            background: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+            padding: 1.8rem 1.6rem 2rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .fa-helplines h2 {
+            color: #0f172a;
+            margin-bottom: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.25rem;
+        }
+
+        .fa-helpline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.3rem;
+        }
+
+        .fa-helpline-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #ecfeff 100%);
+            padding: 1.1rem 1rem;
+            border-radius: 0.9rem;
+            border-left: 4px solid #0ea5e9;
+            transition: all 0.25s ease;
+        }
+
+        .fa-helpline-card:hover {
+            transform: translateX(3px);
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+        }
+
+        .fa-helpline-card h3 {
+            color: #0369a1;
+            margin-bottom: 0.35rem;
+            font-size: 1rem;
+        }
+
+        .fa-helpline-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.3rem;
+        }
+
+        .fa-helpline-description {
+            color: #475569;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Disclaimer */
+        .fa-disclaimer {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 0.9rem;
+            padding: 1.3rem 1.2rem;
+            margin-bottom: 1.5rem;
+            color: #7f1d1d;
+            font-size: 0.92rem;
+        }
+
+        .fa-disclaimer h3 {
+            margin-bottom: 0.6rem;
+            font-size: 1.05rem;
+        }
+
+        .fa-disclaimer p {
+            line-height: 1.5;
+            margin-bottom: 0.4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .fa-header {
+                padding: 2.4rem 1.4rem;
+            }
+
+            .fa-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .fa-container {
+                margin-top: -1.5rem;
+                padding: 0 1.1rem 1.5rem;
+            }
+
+            .fa-quick-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .fa-section-content {
+                padding: 1.3rem 1.2rem 1.4rem;
+            }
+
+            .fa-steps li {
+                padding-left: 2.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="mc-navbar">
+       <div class="mc-nav-left">
+    <div class="mc-logo-mark">
+        <img src="logo.png" alt="Logo">
+    </div>
+    
+    <div>
+        <div class="mc-logo-title">MediConnect</div>
+        <div class="mc-logo-subtitle">Family Health Hub</div>
+    </div>
+</div>
+        <div class="mc-nav-right">
+            <span class="mc-user-label" id="userDisplay">Guest</span>
+            <a href="index.html" class="mc-btn-ghost">Home</a>
+        </div>
+    </header>
+
+    <header class="fa-header">
+        <h1>🚑 First Aid Emergency Guide</h1>
+        <p>Clear, step-by-step guidance for common emergencies</p>
+        <p>Use this as a quick helper, but always seek professional medical care.</p>
+        <div class="fa-emergency-number">
+            📞 Emergency Ambulance: <strong>102</strong> (Available 24/7)
+        </div>
+    </header>
+
+    <main class="fa-container">
+
+        <section class="fa-quick-buttons">
+            <button class="fa-quick-btn" onclick="scrollToSection('cpr')">💓 CPR</button>
+            <button class="fa-quick-btn" onclick="scrollToSection('choking')">🫁 Choking</button>
+            <button class="fa-quick-btn" onclick="scrollToSection('bleeding')">🩸 Bleeding</button>
+            <button class="fa-quick-btn" onclick="scrollToSection('burns')">🔥 Burns</button>
+            <button class="fa-quick-btn" onclick="scrollToSection('fractures')">🦴 Fractures</button>
+            <button class="fa-quick-btn" onclick="scrollToSection('snakebite')">🐍 Snake Bite</button>
+            <button class="fa-quick-btn" onclick="scrollToSection('heartattack')">❤️ Heart Attack</button>
+            <button class="fa-quick-btn" onclick="scrollToSection('heatstroke')">🌡️ Heat Stroke</button>
+        </section>
+
+        <section class="fa-section" id="cpr">
+            <div class="fa-section-title" onclick="toggleSection(this)">
+            <h2>💓 CPR - Cardiopulmonary Resuscitation</h2>
+            <span class="fa-toggle-icon">▼</span>
+            </div>
+            <div class="fa-section-content">
+                <div class="fa-warning">
+                    <strong>⚠️ Call 102 immediately if the person is unresponsive or not breathing.</strong>
+                    Start CPR while help is on the way. Continue until professional help arrives or the person starts breathing normally.
+                </div>
+                <ul class="fa-steps">
+                    <li><strong>Check responsiveness:</strong> Tap the person's shoulders and shout, "Are you okay?".</li>
+                    <li><strong>Call for help:</strong> Dial 102 or ask someone nearby to call while you begin CPR.</li>
+                    <li><strong>Lay them on a flat surface:</strong> Place the person on their back on a firm, flat surface.</li>
+                    <li><strong>Open the airway:</strong> Tilt the head slightly back and lift the chin.</li>
+                    <li><strong>Hand position:</strong> Place the heel of one hand in the center of the chest, then place the other hand on top and interlock fingers.</li>
+                    <li><strong>Start chest compressions:</strong> Push hard and fast, about 5 cm deep, at 100–120 compressions per minute.</li>
+                    <li><strong>Give rescue breaths (if trained):</strong> After 30 compressions, give 2 breaths by sealing their mouth and blowing in for 1 second each.</li>
+                    <li><strong>Continue cycles:</strong> Repeat 30 compressions and 2 breaths without long pauses.</li>
+                    <li><strong>Use AED if available:</strong> Follow device voice prompts until medical help takes over.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="fa-section" id="choking">
+            <div class="fa-section-title" onclick="toggleSection(this)">
+                <h2>🫁 Choking - Airway Obstruction</h2>
+                <span class="fa-toggle-icon">▼</span>
+            </div>
+            <div class="fa-section-content">
+                <div class="fa-warning">
+                    <strong>⚠️ If the person cannot speak, cough, or breathe, act immediately and call 102.</strong>
+                    Encourage coughing if they can still breathe and make sounds.
+                </div>
+                <ul class="fa-steps">
+                    <li><strong>Confirm choking:</strong> Ask "Are you choking?". If they nod or cannot talk, proceed quickly.</li>
+                    <li><strong>Stand behind the person:</strong> Wrap your arms around their waist.</li>
+                    <li><strong>Make a fist:</strong> Place your fist just above the navel (belly button), thumb side in.</li>
+                    <li><strong>Grasp your fist:</strong> With your other hand, hold your fist firmly.</li>
+                    <li><strong>Perform upward thrusts:</strong> Pull sharply inward and upward into the abdomen.</li>
+                    <li><strong>Repeat thrusts:</strong> Continue until the object is expelled or the person becomes unconscious.</li>
+                    <li><strong>If unconscious:</strong> Gently lower them to the floor and begin CPR. Check the mouth for an object before giving breaths.</li>
+                    <li><strong>After clearing:</strong> Even if the person recovers, recommend a medical check-up.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="fa-section" id="bleeding">
+            <div class="fa-section-title" onclick="toggleSection(this)">
+                <h2>🩸 Severe Bleeding - Heavy Cuts & Wounds</h2>
+                <span class="fa-toggle-icon">▼</span>
+            </div>
+            <div class="fa-section-content">
+                <div class="fa-warning">
+                    <strong>⚠️ Heavy bleeding can be life-threatening. Call 102 right away.</strong>
+                    Act quickly to slow down or stop the bleeding while waiting for help.
+                </div>
+                <ul class="fa-steps">
+                    <li><strong>Protect yourself:</strong> If possible, wear gloves or use a clean cloth to avoid contact with blood.</li>
+                    <li><strong>Apply direct pressure:</strong> Press firmly on the wound using a clean cloth or bandage.</li>
+                    <li><strong>Maintain pressure:</strong> Do not remove the cloth if it soaks through; place another one on top.</li>
+                    <li><strong>Elevate the limb:</strong> Raise the injured area above heart level if there is no fracture.</li>
+                    <li><strong>Use a bandage:</strong> Wrap the wound firmly, but not so tight that it cuts off circulation.</li>
+                    <li><strong>Tourniquet (only if needed):</strong> For life-threatening limb bleeding, tie a cloth a few centimeters above the wound and tighten.</li>
+                    <li><strong>Note the time:</strong> Remember when the tourniquet was applied to inform medical staff.</li>
+                    <li><strong>Monitor the person:</strong> Keep them lying down, calm, and warm until help arrives.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="fa-section" id="burns">
+            <div class="fa-section-title" onclick="toggleSection(this)">
+                <h2>🔥 Burns - Heat Injury</h2>
+                <span class="fa-toggle-icon">▼</span>
+            </div>
+            <div class="fa-section-content">
+                <div class="fa-warning">
+                    <strong>⚠️ For large, deep, or facial burns, call 102 immediately.</strong>
+                    Never apply ice, toothpaste, oil, or ghee on burns.
+                </div>
+                <ul class="fa-steps">
+                    <li><strong>Stop the burning:</strong> Move the person away from the heat source, fire, or hot object.</li>
+                    <li><strong>Cool the burn:</strong> Hold the burned area under cool running water for 15–20 minutes.</li>
+                    <li><strong>Remove tight items:</strong> Carefully remove jewelry or tight clothing before swelling starts.</li>
+                    <li><strong>Do not break blisters:</strong> Blisters protect the skin and should be left intact.</li>
+                    <li><strong>Cover the burn:</strong> Use a clean, non-stick cloth or sterile gauze.</li>
+                    <li><strong>Avoid home remedies:</strong> Do not apply butter, creams, or powders on the burn.</li>
+                    <li><strong>Pain relief:</strong> If the person is conscious, they may take a pain reliever like paracetamol (if not allergic).</li>
+                    <li><strong>Seek medical help:</strong> For burns on the face, hands, groin, or large areas, get professional care.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="fa-section" id="fractures">
+            <div class="fa-section-title" onclick="toggleSection(this)">
+                <h2>🦴 Fractures - Broken Bones</h2>
+                <span class="fa-toggle-icon">▼</span>
+            </div>
+            <div class="fa-section-content">
+                <div class="fa-warning">
+                    <strong>⚠️ Suspected fractures, especially with deformity or severe pain, require medical attention. Call 102 if serious.</strong>
+                    Avoid moving the injured area unnecessarily.
+                </div>
+                <ul class="fa-steps">
+                    <li><strong>Check for signs:</strong> Pain, swelling, bruising, or abnormal shape of a limb.</li>
+                    <li><strong>Keep the person still:</strong> Ask them not to move the injured part.</li>
+                    <li><strong>Immobilize the limb:</strong> Use a splint (like a board, rolled magazine, or stick) along the injured area.</li>
+                    <li><strong>Secure the splint:</strong> Tie it gently using cloth strips or bandages above and below the injury.</li>
+                    <li><strong>Do not straighten the limb:</strong> If it's bent or deformed, do not try to realign it.</li>
+                    <li><strong>Apply ice (wrapped):</strong> Place a cloth-wrapped ice pack near the injury to reduce swelling.</li>
+                    <li><strong>Elevate if possible:</strong> Raise the injured area slightly, if it does not cause pain.</li>
+                    <li><strong>Seek hospital care:</strong> Get X-rays and professional treatment as soon as possible.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="fa-section" id="snakebite">
+            <div class="fa-section-title" onclick="toggleSection(this)">
+                <h2>🐍 Snake Bite - Venomous Bite</h2>
+                <span class="fa-toggle-icon">▼</span>
+            </div>
+            <div class="fa-section-content">
+                <div class="fa-warning">
+                    <strong>⚠️ Treat all snake bites as serious. Call 102 immediately.</strong>
+                    Try to keep the person calm and still while arranging quick transport to a hospital.
+                </div>
+                <ul class="fa-steps">
+                    <li><strong>Move to safety:</strong> Take the person away from the snake to avoid a second bite.</li>
+                    <li><strong>Keep them calm:</strong> Reassure the person and ask them not to move the bitten limb.</li>
+                    <li><strong>Remove tight items:</strong> Take off rings, watches, or tight clothes near the bite area.</li>
+                    <li><strong>Immobilize the limb:</strong> Keep the bite area still and at or slightly below heart level.</li>
+                    <li><strong>Apply a firm bandage:</strong> Wrap a broad bandage over the bite and along the limb (not too tight).</li>
+                    <li><strong>Use a splint:</strong> Support the limb with a splint to reduce movement.</li>
+                    <li><strong>Do NOT:</strong> Do not cut the wound, suck the venom, or apply ice or chemicals.</li>
+                    <li><strong>Note details:</strong> If safe, remember the snake's color and shape to inform doctors.</li>
+                    <li><strong>Reach hospital:</strong> Antivenom is given only at hospitals under doctor supervision.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="fa-section" id="heartattack">
+            <div class="fa-section-title" onclick="toggleSection(this)">
+                <h2>❤️ Heart Attack - Chest Pain / Discomfort</h2>
+                <span class="fa-toggle-icon">▼</span>
+            </div>
+            <div class="fa-section-content">
+                <div class="fa-warning">
+                    <strong>⚠️ Chest pain that lasts more than a few minutes can be a heart attack. Call 102 immediately.</strong>
+                    Do not ignore or delay seeking emergency help.
+                </div>
+                <ul class="fa-steps">
+                    <li><strong>Recognize common signs:</strong> Chest pressure or pain, sweating, nausea, shortness of breath, pain in arm, jaw, or back.</li>
+                    <li><strong>Stop activity:</strong> Help the person sit down and rest in a comfortable position.</li>
+                    <li><strong>Call 102:</strong> Do not attempt to drive yourself or the person if symptoms are severe.</li>
+                    <li><strong>Loosen clothing:</strong> Open collars, belts, or tight garments to help breathing.</li>
+                    <li><strong>Give aspirin (if suitable):</strong> If not allergic and fully conscious, they can chew a standard tablet of aspirin.</li>
+                    <li><strong>Keep them calm:</strong> Encourage slow breathing and reassure them while waiting for help.</li>
+                    <li><strong>Monitor breathing:</strong> If they stop breathing or lose consciousness, start CPR.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="fa-section" id="heatstroke">
+            <div class="fa-section-title" onclick="toggleSection(this)">
+                <h2>🌡️ Heat Stroke - Extreme Heat Exposure</h2>
+                <span class="fa-toggle-icon">▼</span>
+            </div>
+            <div class="fa-section-content">
+                <div class="fa-warning">
+                    <strong>⚠️ High body temperature, confusion, or unconsciousness in hot weather is an emergency. Call 102.</strong>
+                    Quick cooling can save a life.
+                </div>
+                <ul class="fa-steps">
+                    <li><strong>Move to a cool place:</strong> Take the person to shade or an air-conditioned area.</li>
+                    <li><strong>Lay them down:</strong> Help the person lie down with head slightly raised.</li>
+                    <li><strong>Remove extra clothing:</strong> Loosen or remove jackets, shoes, and unnecessary layers.</li>
+                    <li><strong>Cool the body:</strong> Apply cool, wet cloths on the neck, armpits, and groin.</li>
+                    <li><strong>Use a fan:</strong> Fan the person to increase cooling through evaporation.</li>
+                    <li><strong>Give fluids (if awake):</strong> Offer small sips of cool water or oral rehydration solution.</li>
+                    <li><strong>Do not give:</strong> Avoid very cold drinks, caffeine, or alcohol.</li>
+                    <li><strong>Watch for worsening:</strong> If they become confused, unconscious, or stop sweating, call 102 urgently.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="fa-videos-section">
+            <h2><span>📺</span> Learn More - Video Guides</h2>
+            <div class="fa-video-grid">
+                <article class="fa-video-card">
+                    <div class="fa-video-placeholder">▶️</div>
+                    <h3>How to Perform Hands-Only CPR</h3>
+                    <p>Compression-only CPR technique from the American Red Cross. Learn the check, call, care steps in minutes.</p>
+                    <button
+                        class="fa-video-btn"
+                        type="button"
+                        onclick="window.open('https://www.youtube.com/watch?v=6eRwgM2Pa4o','_blank')"
+                    >
+                        Watch Video (2:50)
+                    </button>
+                </article>
+
+                <article class="fa-video-card">
+                    <div class="fa-video-placeholder">▶️</div>
+                    <h3>Heimlich Maneuver Tutorial</h3>
+                    <p>Step-by-step instructions from emergency physician Dr. Haroun Zayed on how to perform abdominal thrusts safely.</p>
+                    <button
+                        class="fa-video-btn"
+                        type="button"
+                        onclick="window.open('https://www.youtube.com/watch?v=bNwXnJQqA-g','_blank')"
+                    >
+                        Watch Video (2:04)
+                    </button>
+                </article>
+
+                <article class="fa-video-card">
+                    <div class="fa-video-placeholder">▶️</div>
+                    <h3>Life-threatening Bleeding</h3>
+                    <p>Professional first aid training on controlling heavy bleeding, including direct pressure and tourniquet application.</p>
+                    <button
+                        class="fa-video-btn"
+                        type="button"
+                        onclick="window.open('https://www.youtube.com/watch?v=p9KHec6xfuw','_blank')"
+                    >
+                        Watch Video (3:37)
+                    </button>
+                </article>
+
+                <article class="fa-video-card">
+                    <div class="fa-video-placeholder">▶️</div>
+                    <h3>Treat Minor Burns</h3>
+                    <p>Mayo Clinic Health System guide on proper burn treatment, cooling techniques, and when to seek medical care.</p>
+                    <button
+                        class="fa-video-btn"
+                        type="button"
+                        onclick="window.open('https://www.youtube.com/watch?v=LIaqKI7B8EI','_blank')"
+                    >
+                        Watch Video (2:56)
+                    </button>
+                </article>
+
+                <article class="fa-video-card">
+                    <div class="fa-video-placeholder">▶️</div>
+                    <h3>Splinting a Broken Bone</h3>
+                    <p>Emergency care series on immobilizing fractures using common materials and proper splinting techniques.</p>
+                    <button
+                        class="fa-video-btn"
+                        type="button"
+                        onclick="window.open('https://www.youtube.com/watch?v=0McDQWgZcpo','_blank')"
+                    >
+                        Watch Video (4:23)
+                    </button>
+                </article>
+
+                <article class="fa-video-card">
+                    <div class="fa-video-placeholder">▶️</div>
+                    <h3>Snake Bite: First Aid & Treatment</h3>
+                    <p>Dr. Ajay Kumar Mishra explains proper first aid for snake bites and common misconceptions to avoid.</p>
+                    <button
+                        class="fa-video-btn"
+                        type="button"
+                        onclick="window.open('https://www.youtube.com/watch?v=LTSv5066w5Y','_blank')"
+                    >
+                        Watch Video (5:52)
+                    </button>
+                </article>
+
+                <article class="fa-video-card">
+                    <div class="fa-video-placeholder">▶️</div>
+                    <h3>First Aid in Heart Attack</h3>
+                    <p>Apollo Hospitals guide on recognizing heart attack symptoms and immediate steps to help someone in distress.</p>
+                    <button
+                        class="fa-video-btn"
+                        type="button"
+                        onclick="window.open('https://www.youtube.com/watch?v=WDh0LdqCeYg','_blank')"
+                    >
+                        Watch Video (3:09)
+                    </button>
+                </article>
+
+                <article class="fa-video-card">
+                    <div class="fa-video-placeholder">▶️</div>
+                    <h3>Heat Stroke First Aid</h3>
+                    <p>Essential first aid tips for recognizing and treating heat stroke with proper cooling techniques.</p>
+                    <button
+                        class="fa-video-btn"
+                        type="button"
+                        onclick="window.open('https://www.youtube.com/watch?v=njDvHx7XeB8','_blank')"
+                    >
+                        Watch Video (2:45)
+                    </button>
+                </article>
+
+                <article class="fa-video-card">
+                    <div class="fa-video-placeholder">▶️</div>
+                    <h3>The Recovery Position</h3>
+                    <p>St John Ambulance tutorial on proper recovery position for unconscious but breathing individuals.</p>
+                    <button
+                        class="fa-video-btn"
+                        type="button"
+                        onclick="window.open('https://www.youtube.com/watch?v=GmqXqwSV3bo','_blank')"
+                    >
+                        Watch Video (2:32)
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <section class="fa-helplines">
+            <h2>📞 Emergency Helplines</h2>
+            <div class="fa-helpline-grid">
+                <article class="fa-helpline-card">
+                    <h3>🚑 Ambulance</h3>
+                    <div class="fa-helpline-number">102</div>
+                    <p class="fa-helpline-description">24/7 medical emergency ambulance service across India.</p>
+                </article>
+
+                <article class="fa-helpline-card">
+                    <h3>☠️ Poison Control</h3>
+                    <div class="fa-helpline-number">1800-180-1888</div>
+                    <p class="fa-helpline-description">For poisoning, chemical exposure, or harmful substance ingestion.</p>
+                </article>
+
+                <article class="fa-helpline-card">
+                    <h3>🧠 Mental Health Crisis</h3>
+                    <div class="fa-helpline-number">9152987821</div>
+                    <p class="fa-helpline-description">iCall helpline offering emotional support and counseling.</p>
+                </article>
+
+                <article class="fa-helpline-card">
+                    <h3>🆘 Fire & Rescue</h3>
+                    <div class="fa-helpline-number">101</div>
+                    <p class="fa-helpline-description">For fire accidents, rescue operations, and related emergencies.</p>
+                </article>
+
+                <article class="fa-helpline-card">
+                    <h3>🚔 Police Emergency</h3>
+                    <div class="fa-helpline-number">100</div>
+                    <p class="fa-helpline-description">For accidents, violence, and situations needing police support.</p>
+                </article>
+
+                <article class="fa-helpline-card">
+                    <h3>🏥 Disaster Management</h3>
+                    <div class="fa-helpline-number">1077</div>
+                    <p class="fa-helpline-description">For natural disasters or large-scale emergencies affecting many people.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="fa-disclaimer">
+            <h3>⚠️ Important Disclaimer</h3>
+            <p><strong>This page is for educational purposes only.</strong> It gives general first aid guidance but does not replace professional medical training.</p>
+            <p><strong>In any serious emergency, always call 102 and follow the instructions of trained medical staff.</strong></p>
+            <p>Conditions can vary from person to person. When in doubt, prioritize reaching a hospital or contacting emergency services.</p>
+        </section>
+
+    </main>
+
+    <script>
+        // Toggle section expand/collapse
+        function toggleSection(headerEl) {
+            const content = headerEl.nextElementSibling;
+            const icon = headerEl.querySelector(".fa-toggle-icon");
+
+            content.classList.toggle("active");
+            icon.classList.toggle("active");
+        }
+
+        // Smooth scroll to section and auto-open
+        function scrollToSection(id) {
+            const section = document.getElementById(id);
+            if (!section) return;
+
+            section.scrollIntoView({ behavior: "smooth", block: "start" });
+
+            const title = section.querySelector(".fa-section-title");
+            const content = section.querySelector(".fa-section-content");
+            if (content && !content.classList.contains("active")) {
+                title.click();
+            }
+        }
+    </script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
